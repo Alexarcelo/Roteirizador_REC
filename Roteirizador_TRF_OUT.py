@@ -4642,59 +4642,43 @@ if servico_roteiro and data_roteiro:
 
     if enviar_informes or enviar_informes_kellen:
 
-        # puxar_historico('1az0u1yGWqIXE9KcUro6VznsVj7d5fozhH3dDsT1eI6A', ['Histórico Roteiros'], ['df_historico_roteiros'])
+        puxar_historico('1az0u1yGWqIXE9KcUro6VznsVj7d5fozhH3dDsT1eI6A', ['Histórico Roteiros'], ['df_historico_roteiros'])
 
-        # st.session_state.df_historico_roteiros['Data Execucao'] = pd.to_datetime(st.session_state.df_historico_roteiros['Data Execucao']).dt.date
+        st.session_state.df_historico_roteiros['Data Execucao'] = pd.to_datetime(st.session_state.df_historico_roteiros['Data Execucao']).dt.date
 
-        # st.session_state.df_historico_roteiros['Id_Servico'] = pd.to_numeric(st.session_state.df_historico_roteiros['Id_Servico'])
-
-        # if servico_roteiro=='OUT (PORTO DE GALINHAS)' or servico_roteiro=='OUT (SERRAMBI)':
-
-        #     df_ref_thiago = st.session_state.df_historico_roteiros[(st.session_state.df_historico_roteiros['Data Execucao']==data_roteiro) & 
-        #                                                            ((st.session_state.df_historico_roteiros['Servico']=='OUT (PORTO DE GALINHAS)') | 
-        #                                                             (st.session_state.df_historico_roteiros['Servico']=='OUT (SERRAMBI)'))].reset_index(drop=True)
-
-        #     df_verificacao = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro) & 
-        #                                                 ((st.session_state.df_router['Servico']=='OUT (PORTO DE GALINHAS)') | 
-        #                                                  (st.session_state.df_router['Servico']=='OUT (SERRAMBI)'))].reset_index(drop=True)
-    
-        # else:
-
-        #     df_ref_thiago = st.session_state.df_historico_roteiros[(st.session_state.df_historico_roteiros['Data Execucao']==data_roteiro) & 
-        #                                                            (st.session_state.df_historico_roteiros['Servico']==servico_roteiro)].reset_index(drop=True)
-
-        #     df_verificacao = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro) & 
-        #                                                 (st.session_state.df_router['Servico']==servico_roteiro)].reset_index(drop=True)
-
-        # id_servicos_verificacao = set(df_verificacao['Id_Servico'])
-        
-        # id_servicos_ref_thiago = set(df_ref_thiago['Id_Servico'])
-
-        # id_servicos_unicos = id_servicos_verificacao - id_servicos_ref_thiago
-
-        # reservas_nao_roteirizadas = df_verificacao.loc[~df_verificacao['Id_Servico'].isin(df_ref_thiago['Id_Servico']), 'Reserva'].unique()
-
-        # if len(reservas_nao_roteirizadas)>0:
-
-        #     nome_reservas = ', '.join(reservas_nao_roteirizadas)
-
-        #     st.warning(f'As reservas {nome_reservas} não foram roteirizadas e, portanto, não foi enviado informativos de saída para elas')
+        st.session_state.df_historico_roteiros['Id_Servico'] = pd.to_numeric(st.session_state.df_historico_roteiros['Id_Servico'])
 
         if servico_roteiro=='OUT (PORTO DE GALINHAS)' or servico_roteiro=='OUT (SERRAMBI)':
 
-            df_ref_thiago = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro) & 
-                                                            (st.session_state.df_router['Tipo de Servico']=='OUT') & 
-                                                            (st.session_state.df_router['Status do Servico']!='CANCELADO') & 
-                                                            ((st.session_state.df_router['Servico']=='OUT (PORTO DE GALINHAS)') | 
-                                                             (st.session_state.df_router['Servico']=='OUT (SERRAMBI)'))].reset_index(drop=True)
+            df_ref_thiago = st.session_state.df_historico_roteiros[(st.session_state.df_historico_roteiros['Data Execucao']==data_roteiro) & 
+                                                                   ((st.session_state.df_historico_roteiros['Servico']=='OUT (PORTO DE GALINHAS)') | 
+                                                                    (st.session_state.df_historico_roteiros['Servico']=='OUT (SERRAMBI)'))].reset_index(drop=True)
+
+            df_verificacao = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro) & 
+                                                        ((st.session_state.df_router['Servico']=='OUT (PORTO DE GALINHAS)') | 
+                                                         (st.session_state.df_router['Servico']=='OUT (SERRAMBI)'))].reset_index(drop=True)
     
         else:
-    
-            df_ref_thiago = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro) & 
-                                                            (st.session_state.df_router['Tipo de Servico']=='OUT') & 
-                                                            (st.session_state.df_router['Status do Servico']!='CANCELADO') & 
-                                                            (st.session_state.df_router['Servico']==servico_roteiro)]\
-                                                            .reset_index(drop=True)
+
+            df_ref_thiago = st.session_state.df_historico_roteiros[(st.session_state.df_historico_roteiros['Data Execucao']==data_roteiro) & 
+                                                                   (st.session_state.df_historico_roteiros['Servico']==servico_roteiro)].reset_index(drop=True)
+
+            df_verificacao = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro) & 
+                                                        (st.session_state.df_router['Servico']==servico_roteiro)].reset_index(drop=True)
+
+        id_servicos_verificacao = set(df_verificacao['Id_Servico'])
+        
+        id_servicos_ref_thiago = set(df_ref_thiago['Id_Servico'])
+
+        id_servicos_unicos = id_servicos_verificacao - id_servicos_ref_thiago
+
+        reservas_nao_roteirizadas = df_verificacao.loc[~df_verificacao['Id_Servico'].isin(df_ref_thiago['Id_Servico']), 'Reserva'].unique()
+
+        if len(reservas_nao_roteirizadas)>0:
+
+            nome_reservas = ', '.join(reservas_nao_roteirizadas)
+
+            st.warning(f'As reservas {nome_reservas} não foram roteirizadas e, portanto, não foi enviado informativos de saída para elas')
     
         dict_tag_servico = \
             {'OUT (PORTO DE GALINHAS)': 'Porto de Galinhas', 
