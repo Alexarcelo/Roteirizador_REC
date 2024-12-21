@@ -3346,9 +3346,21 @@ def roteirizar_hoteis_mais_pax_max_inacessibilidade(df_servicos, roteiro, df_hot
 
     return df_servicos, df_hoteis_pax_max, roteiro
 
+def verificar_voos_undefined():
+
+    if len(st.session_state.df_router[st.session_state.df_router['Horario Voo']=='undefined']['Voo'].unique())>0:
+
+        nome_voos_undefined = ', '.join(st.session_state.df_router[st.session_state.df_router['Horario Voo']=='undefined']['Voo'].unique())
+
+        st.error(f'Os voos {nome_voos_undefined} foram cadastrados com horário vazio para alguma data específica. Por favor, entre nos cadastros deles, elimine essas agendas com horário vazio, comunique Thiago e tente novamente')
+
+        st.stop()
+        
 def puxar_dados_phoenix():
 
     st.session_state.df_router = gerar_df_phoenix('vw_router', 'test_phoenix_recife')
+
+    verificar_voos_undefined()
 
     st.session_state.df_router = st.session_state.df_router[(st.session_state.df_router['Status do Servico']!='CANCELADO') & 
                                                             (~st.session_state.df_router['Status da Reserva'].isin(['CANCELADO', 'RASCUNHO', 'PENDENCIA DE IMPORTAÇÃO']))].reset_index(drop=True)
