@@ -4154,7 +4154,8 @@ if roteirizar:
                                             'OUT (CARNEIROS I TAMANDARÉ)': ['df_hoteis_carneiros', 'Carneiros', 'Hoteis Carneiros', 'Carneiros'], 
                                             'OUT (ALAGOAS)': ['df_hoteis_alagoas', 'Alagoas', 'Hoteis Alagoas', 'Alagoas'], 
                                             'OUT (MACEIÓ-AL)': ['df_hoteis_maceio', 'Maceio', 'Hoteis Maceio', 'Maceió'], 
-                                            'OUT (MILAGRES / PATACHO / PORTO DE PEDRAS)': ['df_hoteis_mil_pat_ped', 'Milagres-Patacho-Porto de Pedras', 'Hoteis Milagres/Patacho/Pt Pedras', 'Milagres-Patacho-Porto de Pedras']}
+                                            'OUT (MILAGRES / PATACHO / PORTO DE PEDRAS)': ['df_hoteis_mil_pat_ped', 'Milagres-Patacho-Porto de Pedras', 'Hoteis Milagres/Patacho/Pt Pedras', 'Milagres-Patacho-Porto de Pedras'], 
+                                            'OUT RECIFE (CENTRO)': ['df_hoteis_recife_centro', 'Recife Centro', 'Hoteis Recife Centro', 'Recife Centro']}
 
     nome_df_hotel = st.session_state.dict_regioes_hoteis[servico_roteiro][0]
 
@@ -4744,7 +4745,9 @@ if servico_roteiro and data_roteiro:
             'OUT (MILAGRES)': 'Milagres', 
             'OUT (CARNEIROS I TAMANDARÉ)': 'Carneiros', 
             'OUT (ALAGOAS)': 'Alagoas', 
-            'OUT (MACEIÓ-AL)': 'Maceió'}
+            'OUT (MACEIÓ-AL)': 'Maceió', 
+            'OUT (MILAGRES / PATACHO / PORTO DE PEDRAS)': 'Milagres-Patacho-Porto de Pedras', 
+            'OUT RECIFE (CENTRO)': 'Recife Centro'}
     
         if len(df_ref_thiago)>0:
     
