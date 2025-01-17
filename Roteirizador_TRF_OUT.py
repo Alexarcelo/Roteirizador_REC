@@ -10,6 +10,7 @@ import requests
 from google.cloud import secretmanager 
 import json
 from google.oauth2.service_account import Credentials
+from google.oauth2 import service_account
 
 def gerar_df_phoenix(vw_name, base_luck):
     
