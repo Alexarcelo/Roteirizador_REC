@@ -4626,11 +4626,9 @@ if 'df_insercao' in st.session_state and len(st.session_state.df_insercao)>0:
 
 if servico_roteiro and data_roteiro:
 
-    enviar_informes = st.button(f'Enviar Informativos de Saída - {servico_roteiro} | {data_roteiro.strftime("%d/%m/%Y")}')
+    enviar_informes = st.button(f'Enviar Informativos de Saída | {data_roteiro.strftime("%d/%m/%Y")}')
 
-    enviar_informes_kellen = st.button(f'Porto - Enviar Informativos de Saída - {servico_roteiro} | {data_roteiro.strftime("%d/%m/%Y")}')
-
-    if enviar_informes or enviar_informes_kellen:
+    if enviar_informes:
 
         puxar_historico('1az0u1yGWqIXE9KcUro6VznsVj7d5fozhH3dDsT1eI6A', ['Histórico Roteiros'], ['df_historico_roteiros'])
 
@@ -4638,23 +4636,7 @@ if servico_roteiro and data_roteiro:
 
         st.session_state.df_historico_roteiros['Id_Servico'] = pd.to_numeric(st.session_state.df_historico_roteiros['Id_Servico'])
 
-        if servico_roteiro=='OUT (PORTO DE GALINHAS)' or servico_roteiro=='OUT (SERRAMBI)':
-
-            df_ref_thiago = st.session_state.df_historico_roteiros[(st.session_state.df_historico_roteiros['Data Execucao']==data_roteiro) & 
-                                                                   ((st.session_state.df_historico_roteiros['Servico']=='OUT (PORTO DE GALINHAS)') | 
-                                                                    (st.session_state.df_historico_roteiros['Servico']=='OUT (SERRAMBI)'))].reset_index(drop=True)
-
-            df_verificacao = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro) & 
-                                                        ((st.session_state.df_router['Servico']=='OUT (PORTO DE GALINHAS)') | 
-                                                         (st.session_state.df_router['Servico']=='OUT (SERRAMBI)'))].reset_index(drop=True)
-    
-        else:
-
-            df_ref_thiago = st.session_state.df_historico_roteiros[(st.session_state.df_historico_roteiros['Data Execucao']==data_roteiro) & 
-                                                                   (st.session_state.df_historico_roteiros['Servico']==servico_roteiro)].reset_index(drop=True)
-
-            df_verificacao = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro) & 
-                                                        (st.session_state.df_router['Servico']==servico_roteiro)].reset_index(drop=True)
+        df_verificacao = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro)].reset_index(drop=True)
 
         id_servicos_verificacao = set(df_verificacao['Id_Servico'])
         
@@ -4670,39 +4652,16 @@ if servico_roteiro and data_roteiro:
 
             st.warning(f'As reservas {nome_reservas} não foram roteirizadas e, portanto, não foi enviado informativos de saída para elas')
     
-        dict_tag_servico = \
-            {'OUT (PORTO DE GALINHAS)': 'Porto de Galinhas', 
-            'OUT (SERRAMBI)': 'Serrambi', 
-            'OUT (CABO DE STO AGOSTINHO)': 'Cabo de Santo Agostinho', 
-            'OUT (BOA VIAGEM | PIEDADE)': 'Boa Viagem', 
-            'OUT (MARAGOGI | JAPARATINGA)': 'Maragogi', 
-            'OUT (OLINDA)': 'Olinda', 
-            'OUT (FAZENDA NOVA)': 'Fazenda Nova', 
-            'OUT (JOÃO PESSOA-PB)': 'João Pessoa', 
-            'OUT (MILAGRES)': 'Milagres', 
-            'OUT (CARNEIROS I TAMANDARÉ)': 'Carneiros', 
-            'OUT (ALAGOAS)': 'Alagoas', 
-            'OUT (MACEIÓ-AL)': 'Maceió', 
-            'OUT (MILAGRES / PATACHO / PORTO DE PEDRAS)': 'Milagres-Patacho-Porto de Pedras', 
-            'OUT RECIFE (CENTRO)': 'Recife Centro'}
-    
         if len(df_ref_thiago)>0:
     
             lista_ids_servicos = df_ref_thiago['Id_Servico'].tolist()
 
-            if enviar_informes:
-    
-                webhook_thiago = "https://conexao.multiatend.com.br/webhook/luckenvioinformativorecife"
-
-            elif enviar_informes_kellen:
-
-                webhook_thiago = "https://conexao.multiatend.com.br/webhook/luckenvioinformativoporto"
+            webhook_thiago = "https://conexao.multiatend.com.br/webhook/luckenvioinformativoporto"
             
             data_roteiro_str = data_roteiro.strftime('%Y-%m-%d')
             
             payload = {"data": data_roteiro_str, 
-                       "ids_servicos": lista_ids_servicos, 
-                       "tag_servico": dict_tag_servico[servico_roteiro]}
+                       "ids_servicos": lista_ids_servicos}
             
             response = requests.post(webhook_thiago, json=payload)
             
