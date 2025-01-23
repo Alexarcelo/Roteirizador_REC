@@ -4636,8 +4636,7 @@ if data_roteiro:
 
         st.session_state.df_historico_roteiros['Id_Servico'] = pd.to_numeric(st.session_state.df_historico_roteiros['Id_Servico'])
 
-        df_ref_thiago = st.session_state.df_historico_roteiros[(st.session_state.df_historico_roteiros['Data Execucao']==data_roteiro) & 
-                                                                   (st.session_state.df_historico_roteiros['Servico']==servico_roteiro)].reset_index(drop=True)
+        df_ref_thiago = st.session_state.df_historico_roteiros[(st.session_state.df_historico_roteiros['Data Execucao']==data_roteiro)].reset_index(drop=True)
 
         df_verificacao = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro)].reset_index(drop=True)
 
