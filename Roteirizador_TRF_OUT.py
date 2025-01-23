@@ -4638,13 +4638,7 @@ if data_roteiro:
 
         df_ref_thiago = st.session_state.df_historico_roteiros[(st.session_state.df_historico_roteiros['Data Execucao']==data_roteiro)].reset_index(drop=True)
 
-        df_verificacao = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro)].reset_index(drop=True)
-
-        id_servicos_verificacao = set(df_verificacao['Id_Servico'])
-        
-        id_servicos_ref_thiago = set(df_ref_thiago['Id_Servico'])
-
-        id_servicos_unicos = id_servicos_verificacao - id_servicos_ref_thiago
+        df_verificacao = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro) & (st.session_state.df_router['Tipo de Servico']=='OUT')].reset_index(drop=True)
 
         reservas_nao_roteirizadas = df_verificacao.loc[~df_verificacao['Id_Servico'].isin(df_ref_thiago['Id_Servico']), 'Reserva'].unique()
 
