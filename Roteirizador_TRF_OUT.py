@@ -4636,15 +4636,18 @@ if data_roteiro:
 
         st.session_state.df_historico_roteiros['Id_Servico'] = pd.to_numeric(st.session_state.df_historico_roteiros['Id_Servico'])
 
+        df_ref_thiago = st.session_state.df_historico_roteiros[(st.session_state.df_historico_roteiros['Data Execucao']==data_roteiro) & 
+                                                                   (st.session_state.df_historico_roteiros['Servico']==servico_roteiro)].reset_index(drop=True)
+
         df_verificacao = st.session_state.df_router[(st.session_state.df_router['Data Execucao']==data_roteiro)].reset_index(drop=True)
 
         id_servicos_verificacao = set(df_verificacao['Id_Servico'])
         
-        id_servicos_ref_thiago = set(st.session_state.df_historico_roteiros['Id_Servico'])
+        id_servicos_ref_thiago = set(df_ref_thiago['Id_Servico'])
 
         id_servicos_unicos = id_servicos_verificacao - id_servicos_ref_thiago
 
-        reservas_nao_roteirizadas = df_verificacao.loc[~df_verificacao['Id_Servico'].isin(st.session_state.df_historico_roteiros['Id_Servico']), 'Reserva'].unique()
+        reservas_nao_roteirizadas = df_verificacao.loc[~df_verificacao['Id_Servico'].isin(df_ref_thiago['Id_Servico']), 'Reserva'].unique()
 
         if len(reservas_nao_roteirizadas)>0:
 
@@ -4652,9 +4655,9 @@ if data_roteiro:
 
             st.warning(f'As reservas {nome_reservas} não foram roteirizadas e, portanto, não foi enviado informativos de saída para elas')
     
-        if len(st.session_state.df_historico_roteiros)>0:
+        if len(df_ref_thiago)>0:
     
-            lista_ids_servicos = st.session_state.df_historico_roteiros['Id_Servico'].tolist()
+            lista_ids_servicos = df_ref_thiago['Id_Servico'].tolist()
 
             webhook_thiago = "https://conexao.multiatend.com.br/webhook/luckenvioinformativoporto"
             
