@@ -4640,11 +4640,11 @@ if data_roteiro:
 
         id_servicos_verificacao = set(df_verificacao['Id_Servico'])
         
-        id_servicos_ref_thiago = set(df_ref_thiago['Id_Servico'])
+        id_servicos_ref_thiago = set(st.session_state.df_historico_roteiros['Id_Servico'])
 
         id_servicos_unicos = id_servicos_verificacao - id_servicos_ref_thiago
 
-        reservas_nao_roteirizadas = df_verificacao.loc[~df_verificacao['Id_Servico'].isin(df_ref_thiago['Id_Servico']), 'Reserva'].unique()
+        reservas_nao_roteirizadas = df_verificacao.loc[~df_verificacao['Id_Servico'].isin(st.session_state.df_historico_roteiros['Id_Servico']), 'Reserva'].unique()
 
         if len(reservas_nao_roteirizadas)>0:
 
@@ -4652,9 +4652,9 @@ if data_roteiro:
 
             st.warning(f'As reservas {nome_reservas} não foram roteirizadas e, portanto, não foi enviado informativos de saída para elas')
     
-        if len(df_ref_thiago)>0:
+        if len(st.session_state.df_historico_roteiros)>0:
     
-            lista_ids_servicos = df_ref_thiago['Id_Servico'].tolist()
+            lista_ids_servicos = st.session_state.df_historico_roteiros['Id_Servico'].tolist()
 
             webhook_thiago = "https://conexao.multiatend.com.br/webhook/luckenvioinformativoporto"
             
