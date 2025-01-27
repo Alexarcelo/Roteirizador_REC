@@ -4660,7 +4660,8 @@ if data_roteiro:
             data_roteiro_str = data_roteiro.strftime('%Y-%m-%d')
             
             payload = {"data": data_roteiro_str, 
-                       "ids_servicos": lista_ids_servicos}
+                       "ids_servicos": lista_ids_servicos, 
+                       "tag_servico": 'Porto e Serrambi'}
             
             response = requests.post(webhook_thiago, json=payload)
             
@@ -4708,7 +4709,8 @@ if data_roteiro:
             data_roteiro_str = data_roteiro.strftime('%Y-%m-%d')
             
             payload = {"data": data_roteiro_str, 
-                       "ids_servicos": lista_ids_servicos}
+                       "ids_servicos": lista_ids_servicos, 
+                       "tag_servico": 'Demais Destinos'}
             
             response = requests.post(webhook_thiago, json=payload)
             
