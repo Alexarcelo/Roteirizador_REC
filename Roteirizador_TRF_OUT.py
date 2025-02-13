@@ -2185,13 +2185,17 @@ def verificar_rotas_alternativas_ou_plotar_roteiros_sem_apoio(df_roteiros_altern
             mime="text/html"
         )
 
-def plotar_roteiros_gerais_alternativos_sem_apoio(df_servicos, df_alternativos, df_alternativos_2, df_alternativos_3, df_alternativos_4, coluna, row3):
+def plotar_roteiros_gerais_alternativos_sem_apoio(df_servicos, df_alternativos, df_alternativos_2, df_alternativos_3, df_alternativos_4, coluna):
 
     df_rotas_alternativas = pd.concat([df_alternativos['Roteiro'], df_alternativos_2['Roteiro'], df_alternativos_3['Roteiro'], df_alternativos_4['Roteiro']], ignore_index=True).reset_index()
 
     lista_todas_rotas_alternativas = sorted(df_rotas_alternativas['Roteiro'].unique().tolist())
 
     for item in lista_todas_rotas_alternativas:
+
+        row3=st.columns(3)
+
+        coluna=0
 
         df_ref_1 = df_servicos[df_servicos['Roteiro']==item].reset_index(drop=True)
 
@@ -2266,6 +2270,10 @@ def plotar_roteiros_gerais_alternativos_sem_apoio(df_servicos, df_alternativos, 
 
         if item in  df_alternativos['Roteiro'].unique().tolist():
 
+            row3=st.columns(3)
+
+            coluna=0
+
             df_ref_1 = df_alternativos[df_alternativos['Roteiro']==item].reset_index(drop=True)
 
             horario_inicial_voo = df_ref_1['Horario Voo'].min()
@@ -2337,7 +2345,11 @@ def plotar_roteiros_gerais_alternativos_sem_apoio(df_servicos, df_alternativos, 
 
                         coluna+=1
 
-        if item in  df_alternativos_2['Roteiro'].unique().tolist():
+        if item in df_alternativos_2['Roteiro'].unique().tolist():
+
+            row3=st.columns(3)
+
+            coluna=0
 
             df_ref_1 = df_alternativos_2[df_alternativos_2['Roteiro']==item].reset_index(drop=True)
 
@@ -2412,6 +2424,10 @@ def plotar_roteiros_gerais_alternativos_sem_apoio(df_servicos, df_alternativos, 
 
         if item in  df_alternativos_3['Roteiro'].unique().tolist():
 
+            row3=st.columns(3)
+
+            coluna=0
+
             df_ref_1 = df_alternativos_3[df_alternativos_3['Roteiro']==item].reset_index(drop=True)
 
             horario_inicial_voo = df_ref_1['Horario Voo'].min()
@@ -2484,6 +2500,10 @@ def plotar_roteiros_gerais_alternativos_sem_apoio(df_servicos, df_alternativos, 
                         coluna+=1
 
         if item in  df_alternativos_4['Roteiro'].unique().tolist():
+
+            row3=st.columns(3)
+
+            coluna=0
 
             df_ref_1 = df_alternativos_4[df_alternativos_4['Roteiro']==item].reset_index(drop=True)
 
@@ -4483,7 +4503,7 @@ if 'nome_html' in st.session_state and (len(st.session_state.df_roteiros_alterna
         if not gerar_roteiro_final:
 
             coluna = plotar_roteiros_gerais_alternativos_sem_apoio(st.session_state.df_router_filtrado_2, st.session_state.df_roteiros_alternativos, st.session_state.df_roteiros_alternativos_2, 
-                                                                   st.session_state.df_roteiros_alternativos_3, st.session_state.df_roteiros_alternativos_4, coluna, row3)
+                                                                   st.session_state.df_roteiros_alternativos_3, st.session_state.df_roteiros_alternativos_4, coluna)
             
         else:
 
