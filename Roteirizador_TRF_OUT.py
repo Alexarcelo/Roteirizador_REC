@@ -712,7 +712,8 @@ def gerar_horarios_apresentacao(df_servicos, roteiro, max_hoteis):
 
     for index in range(len(df_servicos)):
 
-        if df_servicos.at[index, 'Modo do Servico']=='PRIVATIVO POR VEICULO' or df_servicos.at[index, 'Modo do Servico']=='PRIVATIVO POR PESSOA' or df_servicos.at[index, 'Modo do Servico']=='CADEIRANTE' or df_servicos.at[index, 'Modo do Servico']=='EXCLUSIVO':
+        if df_servicos.at[index, 'Modo do Servico']=='PRIVATIVO POR VEICULO' or df_servicos.at[index, 'Modo do Servico']=='PRIVATIVO POR PESSOA' or \
+            df_servicos.at[index, 'Modo do Servico']=='CADEIRANTE' or df_servicos.at[index, 'Modo do Servico']=='EXCLUSIVO':
 
             roteiro, df_servicos = roteirizar_privativos(roteiro, df_servicos, index)
 
@@ -1261,7 +1262,7 @@ def gerar_roteiros_alternativos_2(df_servicos, max_hoteis_ref, intervalo_pu_hote
 
     for item in lista_roteiros_alternativos:
 
-        df_ref = df_servicos[df_servicos['Roteiro']==item].reset_index(drop=True)
+        df_ref = df_servicos[df_servicos['Roteiro']==item].sort_values(by='Sequência', ascending=False).reset_index(drop=True)
 
         carros = 1
     
@@ -4313,11 +4314,11 @@ if roteirizar:
 
     # Identificando serviços das rotas primárias que vão precisar de apoios
 
-    df_router_filtrado_2 = identificar_apoios_em_df(df_router_filtrado_2, pax_max_utilitario, pax_max_van, pax_max_micro, max_hoteis_roteirizacao)
+    # df_router_filtrado_2 = identificar_apoios_em_df(df_router_filtrado_2, pax_max_utilitario, pax_max_van, pax_max_micro, max_hoteis_roteirizacao)
 
     # Gerando rotas de apoios de rotas primárias
 
-    df_router_filtrado_2 = gerar_roteiros_apoio(df_router_filtrado_2)
+    # df_router_filtrado_2 = gerar_roteiros_apoio(df_router_filtrado_2)
 
     # Gerando roteiros alternativos
 
@@ -4347,31 +4348,31 @@ if roteirizar:
     
     # Identificando serviços das rotas alternativas que vão precisar de apoios
 
-    df_roteiros_alternativos = identificar_apoios_em_df(df_roteiros_alternativos, pax_max_utilitario, pax_max_van, pax_max_micro, max_hoteis_roteirizacao)
+    # df_roteiros_alternativos = identificar_apoios_em_df(df_roteiros_alternativos, pax_max_utilitario, pax_max_van, pax_max_micro, max_hoteis_roteirizacao)
 
     # Gerando rotas de apoios de rotas alternativas
 
-    df_roteiros_alternativos = gerar_roteiros_apoio(df_roteiros_alternativos)
+    # df_roteiros_alternativos = gerar_roteiros_apoio(df_roteiros_alternativos)
 
     # Identificando serviços das rotas alternativas 2 que vão precisar de apoios
 
-    df_roteiros_alternativos_2 = identificar_apoios_em_df(df_roteiros_alternativos_2, pax_max_utilitario, pax_max_van, pax_max_micro, max_hoteis_roteirizacao)
+    # df_roteiros_alternativos_2 = identificar_apoios_em_df(df_roteiros_alternativos_2, pax_max_utilitario, pax_max_van, pax_max_micro, max_hoteis_roteirizacao)
 
     # Gerando rotas de apoios de rotas alternativas 2
 
-    df_roteiros_alternativos_2 = gerar_roteiros_apoio(df_roteiros_alternativos_2)
+    # df_roteiros_alternativos_2 = gerar_roteiros_apoio(df_roteiros_alternativos_2)
 
     # Identificando serviços das rotas alternativas 3 que vão precisar de apoios
 
-    df_roteiros_alternativos_3 = identificar_apoios_em_df(df_roteiros_alternativos_3, pax_max_utilitario, pax_max_van, pax_max_micro, max_hoteis_roteirizacao)
+    # df_roteiros_alternativos_3 = identificar_apoios_em_df(df_roteiros_alternativos_3, pax_max_utilitario, pax_max_van, pax_max_micro, max_hoteis_roteirizacao)
 
     # Gerando rotas de apoios de rotas alternativas 3
 
-    df_roteiros_alternativos_3 = gerar_roteiros_apoio(df_roteiros_alternativos_3)
+    # df_roteiros_alternativos_3 = gerar_roteiros_apoio(df_roteiros_alternativos_3)
 
-    df_roteiros_alternativos_4 = identificar_apoios_em_df(df_roteiros_alternativos_4, pax_max_utilitario, pax_max_van, pax_max_micro, max_hoteis_roteirizacao)
+    # df_roteiros_alternativos_4 = identificar_apoios_em_df(df_roteiros_alternativos_4, pax_max_utilitario, pax_max_van, pax_max_micro, max_hoteis_roteirizacao)
 
-    df_roteiros_alternativos_4 = gerar_roteiros_apoio(df_roteiros_alternativos_4)
+    # df_roteiros_alternativos_4 = gerar_roteiros_apoio(df_roteiros_alternativos_4)
 
     df_router_filtrado_2 = roteirizar_sem_maraca_serrambi(df_router_filtrado_2)
 
